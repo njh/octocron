@@ -65,6 +65,21 @@ class OctopusAPI
     parts.slice(2, parts.length - 3).join('-')
   end
 
+  def tariff_path(type, product_code, rate_type='standard-unit-rates')
+   type_code = type.to_s[0].upcase
+   
+   tariff_type = if type_code == 'G'
+     'gas-tariffs'
+   elsif type_code == 'E'
+    'electricity-tariffs'
+   else
+     raise "Unknown tariff type: #{type_code}"
+   end
+   
+   tariff_code = "#{type_code}-1R-#{product_code}-#{grid_supply_point}"
+   ['products', product_code, tariff_type, tariff_code, rate_type, ''].join('/')
+  end
+
   def get(path, query={})
     uri = URI.parse(BASE_URL + path)
     uri.query = URI.encode_www_form(query)

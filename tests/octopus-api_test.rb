@@ -1,6 +1,7 @@
 $:.unshift(File.dirname(__FILE__))
 
 require 'minitest/autorun'
+
 require './octopus-api.rb'
 
 class OctopusAPITest < Minitest::Test
@@ -23,5 +24,16 @@ class OctopusAPITest < Minitest::Test
     product = octopus.tarrif_to_product('E-1R-SILVER-FLEX-22-11-25-B')
     assert_equal('SILVER-FLEX-22-11-25', product)
   end
-
+  
+  def test_tariff_path_gas
+  	octopus = OctopusAPI.new(grid_supply_point: 'a')
+  	path = octopus.tariff_path(:gas, 'SILVER-23-12-06', 'standard-unit-rates')
+    assert_equal('products/SILVER-23-12-06/gas-tariffs/G-1R-SILVER-23-12-06-A/standard-unit-rates/', path)
+  end
+  
+  def test_tariff_path_elec
+  	octopus = OctopusAPI.new(grid_supply_point: '_B')
+  	path = octopus.tariff_path(:electricity, 'LOYAL-FIX-12M-24-03-22', 'standing-charges')
+    assert_equal('products/LOYAL-FIX-12M-24-03-22/electricity-tariffs/E-1R-LOYAL-FIX-12M-24-03-22-B/standing-charges/', path)
+  end
 end
