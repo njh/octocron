@@ -15,8 +15,16 @@ class OctopusAPI
   # The Octopus account number, as found on the dashboard
   # https://octopus.energy/dashboard/
   attr_accessor :account_number
-  
-  
+
+  def initialize(params={})
+    params.each_pair do |key, value|
+      setter = "#{key}="
+      if respond_to?(setter)
+        self.send(setter, value)
+      end
+    end
+  end
+
   def account_info(account_number=nil)
     account_number = @account_number if account_number.nil?
     raise "No account number given" if account_number.nil?

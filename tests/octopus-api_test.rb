@@ -4,6 +4,18 @@ require 'minitest/autorun'
 require './octopus-api.rb'
 
 class OctopusAPITest < Minitest::Test
+  def test_initialize
+  	octopus = OctopusAPI.new
+    assert_nil(octopus.api_key)
+    assert_nil(octopus.account_number)
+  end
+
+  def test_initialize_with_hash
+    params = {api_key: 'foobar', 'account_number' => 'sk_xxyyzz'}
+  	octopus = OctopusAPI.new(params)
+    assert_equal('foobar', octopus.api_key)
+    assert_equal('sk_xxyyzz', octopus.account_number)
+  end
 
   def test_tarrif_to_product
   	octopus = OctopusAPI.new
