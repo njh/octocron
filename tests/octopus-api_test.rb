@@ -11,10 +11,11 @@ class OctopusAPITest < Minitest::Test
   end
 
   def test_initialize_with_hash
-    params = {api_key: 'foobar', 'account_number' => 'sk_xxyyzz'}
+    params = {api_key: 'foobar', 'account_number' => 'sk_xxyyzz', :grid_supply_point => :b}
   	octopus = OctopusAPI.new(params)
     assert_equal('foobar', octopus.api_key)
     assert_equal('sk_xxyyzz', octopus.account_number)
+    assert_equal('B', octopus.grid_supply_point)
   end
 
   def test_tarrif_to_product

@@ -16,6 +16,10 @@ class OctopusAPI
   # https://octopus.energy/dashboard/
   attr_accessor :account_number
 
+  # The Grid Supply Point Group ID (aka region)
+  # May be looked up using Post Code and #lookup_grid_supply_point
+  attr_reader :grid_supply_point
+
   def initialize(params={})
     params.each_pair do |key, value|
       setter = "#{key}="
@@ -23,6 +27,10 @@ class OctopusAPI
         self.send(setter, value)
       end
     end
+  end
+  
+  def grid_supply_point=(code)
+    @grid_supply_point = code.to_s[-1].upcase
   end
 
   def account_info(account_number=nil)
@@ -34,7 +42,7 @@ class OctopusAPI
   	result[:properties].first
   end
 
-  def grid_supply_point(postcode=nil)
+  def lookup_grid_supply_point(postcode=nil)
     if postcode.nil?
       raise "No postcode and no account number given" if @account_number.nil?
       postcode = account_info[:postcode]
