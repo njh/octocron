@@ -44,6 +44,11 @@ class OctopusAPI
   	end
   end
   
+  def tarrif_to_product(code)
+    parts = code.split('-')
+    parts.slice(2, parts.length - 3).join('-')
+  end
+
   def get(path, query={})
     uri = URI.parse(BASE_URL + path)
     uri.query = URI.encode_www_form(query)
