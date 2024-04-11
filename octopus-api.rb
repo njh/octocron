@@ -37,7 +37,7 @@ class OctopusAPI
     account_number = @account_number if account_number.nil?
     raise "No account number given" if account_number.nil?
 
-  	result = get("accounts/#{account_number}/")
+  	result = get("accounts/#{account_number}")
   	# I suspect that there can be more than one property but lets keep things simple
   	result[:properties].first
   end
@@ -48,7 +48,7 @@ class OctopusAPI
       postcode = account_info[:postcode]
     end
   
-  	result = get('industry/grid-supply-points/', postcode: postcode)
+  	result = get('industry/grid-supply-points', postcode: postcode)
   	
   	# I suspect that there can be more than one result but lets keep things simple
   	if result[:count] === 0
@@ -77,10 +77,12 @@ class OctopusAPI
    end
    
    tariff_code = "#{type_code}-1R-#{product_code}-#{grid_supply_point}"
-   ['products', product_code, tariff_type, tariff_code, rate_type, ''].join('/')
+   ['products', product_code, tariff_type, tariff_code, rate_type].join('/')
   end
 
   def get(path, query={})
+    # The Octopus API requires a trailing slash
+    path += '/' unless path[-1] == '/'
     uri = URI.parse(BASE_URL + path)
     uri.query = URI.encode_www_form(query)
     

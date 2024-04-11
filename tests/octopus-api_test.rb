@@ -28,12 +28,12 @@ class OctopusAPITest < Minitest::Test
   def test_tariff_path_gas
   	octopus = OctopusAPI.new(grid_supply_point: 'a')
   	path = octopus.tariff_path(:gas, 'SILVER-23-12-06', 'standard-unit-rates')
-    assert_equal('products/SILVER-23-12-06/gas-tariffs/G-1R-SILVER-23-12-06-A/standard-unit-rates/', path)
+    assert_equal('products/SILVER-23-12-06/gas-tariffs/G-1R-SILVER-23-12-06-A/standard-unit-rates', path)
   end
   
   def test_tariff_path_elec
   	octopus = OctopusAPI.new(grid_supply_point: '_B')
   	path = octopus.tariff_path(:electricity, 'LOYAL-FIX-12M-24-03-22', 'standing-charges')
-    assert_equal('products/LOYAL-FIX-12M-24-03-22/electricity-tariffs/E-1R-LOYAL-FIX-12M-24-03-22-B/standing-charges/', path)
+    assert_equal('products/LOYAL-FIX-12M-24-03-22/electricity-tariffs/E-1R-LOYAL-FIX-12M-24-03-22-B/standing-charges', path)
   end
 end
