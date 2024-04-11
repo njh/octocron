@@ -42,6 +42,11 @@ class OctopusAPI
   	result[:properties].first
   end
 
+  def product_list
+    result = fetch('products')
+    result[:results]
+  end
+
   def lookup_grid_supply_point(postcode=nil)
     if postcode.nil?
       raise "No postcode and no account number given" if @account_number.nil?
