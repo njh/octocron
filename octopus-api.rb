@@ -5,6 +5,10 @@ require 'uri'
 class OctopusAPI
   BASE_URL = 'https://api.octopus.energy/v1/'
 
+  # Directory to use as a local disk cache for requests made to Octopus
+  # Defaults to ./cache
+  attr_accessor :cache_dir
+
   # The Octopus API key, as found on the Developer Dashboard
   # https://octopus.energy/dashboard/developer/
   attr_accessor :api_key
@@ -18,6 +22,8 @@ class OctopusAPI
   attr_reader :grid_supply_point
 
   def initialize(params = {})
+    @cache_dir = './cache/'
+
     params.each_pair do |key, value|
       setter = "#{key}="
       if respond_to?(setter)
@@ -40,7 +46,7 @@ class OctopusAPI
   end
 
   def product_list
-    result = fetch('products')
+    result = fetch_cached('products')
     result[:results]
   end
 
@@ -114,5 +120,27 @@ class OctopusAPI
     end
 
     JSON.parse(response.body, :symbolize_names => true)
+  end
+
+  def fetch_cached(path, query = {}, cache_key = nil)
+    cache_key = cache_key.join('-') if cache_key.is_a?(Enumerable)
+    cache_key = path.gsub('/', '-') if cache_key.nil?
+    filepath = File.join(@cache_dir, cache_key + '.json')
+
+    if File.exist?(filepath)
+      # We already have a cached copy
+      json = File.read(filepath)
+      data = JSON.parse(json, :symbolize_names => true)
+    else
+      Dir.mkdir(@cache_dir) unless Dir.exist?(@cache_dir)
+
+      # Fetch data and write it to local disk
+      data = fetch(path, query)
+      File.open(filepath, 'w') do |file|
+        file.write JSON.pretty_generate(data)
+      end
+    end
+
+    return data
   end
 end
