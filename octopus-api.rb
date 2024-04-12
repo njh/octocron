@@ -3,7 +3,7 @@ require 'net/http'
 require 'uri'
 
 class OctopusAPI
-  BASE_URL = 'https://api.octopus.energy/v1/'
+  BASE_URL = 'https://api.octopus.energy/v1/'.freeze
 
   # Directory to use as a local disk cache for requests made to Octopus
   # Defaults to ./cache
@@ -27,7 +27,7 @@ class OctopusAPI
     params.each_pair do |key, value|
       setter = "#{key}="
       if respond_to?(setter)
-        self.send(setter, value)
+        send(setter, value)
       end
     end
   end
@@ -62,9 +62,9 @@ class OctopusAPI
     result = fetch_cached('industry/grid-supply-points', { postcode: postcode }, cache_key)
 
     # I suspect that there can be more than one result but lets keep things simple
-    if result[:count] === 0
+    if result[:count] == 0
       raise 'No Grid Supply Points Found'
-    elsif result[:count] === 1
+    elsif result[:count] == 1
       result[:results].first[:group_id]
     else
       raise 'More than one Grid Supply Point found'
@@ -115,8 +115,8 @@ class OctopusAPI
 
     result[:results].map do |row|
       {
-        :time => row[:valid_from],
-        :rate => row[:value_inc_vat]
+        time: row[:valid_from],
+        rate: row[:value_inc_vat]
       }
     end.sort_by { |r| r[:time] }
   end
@@ -133,7 +133,7 @@ class OctopusAPI
     uri.query = URI.encode_www_form(query)
 
     response = nil
-    Net::HTTP.start(uri.host, uri.port, :use_ssl => (uri.scheme == 'https')) do |http|
+    Net::HTTP.start(uri.host, uri.port, use_ssl: (uri.scheme == 'https')) do |http|
       request = Net::HTTP::Get.new(uri)
       if @api_key
         request.basic_auth(@api_key, '')
@@ -145,18 +145,18 @@ class OctopusAPI
       end
     end
 
-    JSON.parse(response.body, :symbolize_names => true)
+    JSON.parse(response.body, symbolize_names: true)
   end
 
   def fetch_cached(path, query = {}, cache_key = nil)
     cache_key = cache_key.join('-') if cache_key.is_a?(Enumerable)
     cache_key = path.gsub('/', '-') if cache_key.nil?
-    filepath = File.join(@cache_dir, cache_key + '.json')
+    filepath = File.join(@cache_dir, "#{cache_key}.json")
 
     if File.exist?(filepath)
       # We already have a cached copy
       json = File.read(filepath)
-      data = JSON.parse(json, :symbolize_names => true)
+      data = JSON.parse(json, symbolize_names: true)
     else
       Dir.mkdir(@cache_dir) unless Dir.exist?(@cache_dir)
 
