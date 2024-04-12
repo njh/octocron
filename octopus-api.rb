@@ -99,6 +99,30 @@ class OctopusAPI
     ].join('/')
   end
 
+  def get_rates_for_day(type, product_code, date = Date.today)
+    rate_type = 'standard-unit-rates'
+    cache_key = [rate_type, tariff_code(type, product_code), date]
+    result = fetch_cached(
+      tariff_path(type, product_code, rate_type),
+      {
+        period_from: "#{date}T00:00:00",
+        period_to: "#{date + 1}T00:00:00",
+      },
+      cache_key
+    )
+
+    result[:results].map do |row|
+      {
+        :time => row[:valid_from],
+        :rate => row[:value_inc_vat]
+      }
+    end.sort_by { |r| r[:time] }
+  end
+
+  def get_single_rate_for_day(type, product_code, date = Date.today)
+    get_rates_for_day(type, product_code, date).first[:rate]
+  end
+
   def fetch(path, query = {})
     # The Octopus API requires a trailing slash
     path += '/' unless path[-1] == '/'
