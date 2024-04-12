@@ -59,7 +59,7 @@ class OctopusAPI
     end
 
     cache_key = 'grid-supply-point-' + postcode.gsub(/\s+/, '')
-    result = fetch_cached('industry/grid-supply-points', { postcode: postcode }, cache_key)
+    result = fetch_cached('industry/grid-supply-points', cache_key, postcode: postcode)
 
     # I suspect that there can be more than one result but lets keep things simple
     if result[:count] == 0
@@ -106,11 +106,11 @@ class OctopusAPI
     cache_key = [rate_type, tariff_code(type, product_code), date]
     result = fetch_cached(
       tariff_path(type, product_code, rate_type),
+      cache_key,
       {
         period_from: "#{date}T00:00:00",
         period_to: "#{date + 1}T00:00:00",
-      },
-      cache_key
+      }
     )
 
     result[:results].map do |row|
@@ -148,7 +148,7 @@ class OctopusAPI
     JSON.parse(response.body, symbolize_names: true)
   end
 
-  def fetch_cached(path, query = {}, cache_key = nil)
+  def fetch_cached(path, cache_key = nil, query = {})
     cache_key = cache_key.join('-') if cache_key.is_a?(Enumerable)
     cache_key = path.gsub('/', '-') if cache_key.nil?
     filepath = File.join(@cache_dir, "#{cache_key}.json")
