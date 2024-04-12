@@ -1,9 +1,19 @@
 ---
 
+# The Octopus API key, as found on the Developer Dashboard
+# https://octopus.energy/dashboard/developer/
 api_key: 'xxx'
-account_number: 'A-XXXX'
-grid_supply_point: 'H'
 
-gas_tracker_tarrif: 'SILVER-23-12-06'
-gas_variable_tarrif: 'VAR-22-11-01'
-gas_fixed_tarrif: 'LOYAL-FIX-12M-24-03-22'
+# The Octopus account number, as found on the dashboard
+# https://octopus.energy/dashboard/
+account_number: 'A-XXXX'
+
+# The Grid Supply Point Group ID (aka region)
+# May be looked up using Post Code and #lookup_grid_supply_point
+#grid_supply_point: 'H'
+
+gas_tracker_tariff: 'SILVER-23-12-06'
+gas_variable_tariff: 'VAR-22-11-01'
+gas_fixed_tariff: 'LOYAL-FIX-12M-24-03-22'
+
+electricity_agile_tariff: 'AGILE-23-12-06'
