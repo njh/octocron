@@ -40,7 +40,8 @@ class OctopusAPI
     account_number = @account_number if account_number.nil?
     raise 'No account number given' if account_number.nil?
 
-    result = fetch("accounts/#{account_number}")
+    result = fetch_cached("accounts/#{account_number}")
+
     # I suspect that there can be more than one property but lets keep things simple
     result[:properties].first
   end
@@ -57,7 +58,8 @@ class OctopusAPI
       postcode = account_info[:postcode]
     end
 
-    result = fetch('industry/grid-supply-points', postcode: postcode)
+    cache_key = 'grid-supply-point-' + postcode.gsub(/\s+/, '')
+    result = fetch_cached('industry/grid-supply-points', { postcode: postcode }, cache_key)
 
     # I suspect that there can be more than one result but lets keep things simple
     if result[:count] === 0
