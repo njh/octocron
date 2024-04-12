@@ -1,0 +1,9 @@
+---
+
+api_key: 'xxx'
+account_number: 'A-XXXX'
+grid_supply_point: 'H'
+
+gas_tracker_tarrif: 'SILVER-23-12-06'
+gas_variable_tarrif: 'VAR-22-11-01'
+gas_fixed_tarrif: 'LOYAL-FIX-12M-24-03-22'
