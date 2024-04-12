@@ -68,19 +68,29 @@ class OctopusAPI
     parts.slice(2, parts.length - 3).join('-')
   end
 
-  def tariff_path(type, product_code, rate_type = 'standard-unit-rates')
+  def tariff_code(type, product_code)
     type_code = type.to_s[0].upcase
 
-    tariff_type = if type_code == 'G'
+    "#{type_code}-1R-#{product_code}-#{grid_supply_point}"
+  end
+
+  def tariff_path(type, product_code, rate_type = 'standard-unit-rates')
+    tariff_type = case type
+                  when /^g/i
                     'gas-tariffs'
-                  elsif type_code == 'E'
+                  when /^e/i
                     'electricity-tariffs'
                   else
-                    raise "Unknown tariff type: #{type_code}"
+                    raise "Unknown tariff type: #{type}"
                   end
 
-    tariff_code = "#{type_code}-1R-#{product_code}-#{grid_supply_point}"
-    ['products', product_code, tariff_type, tariff_code, rate_type].join('/')
+    [
+      'products',
+      product_code,
+      tariff_type,
+      tariff_code(type, product_code),
+      rate_type
+    ].join('/')
   end
 
   def fetch(path, query = {})
