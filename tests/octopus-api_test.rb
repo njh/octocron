@@ -19,9 +19,9 @@ class OctopusAPITest < Minitest::Test
     assert_equal('B', octopus.grid_supply_point)
   end
 
-  def test_tarrif_to_product
+  def test_tariff_to_product
     octopus = OctopusAPI.new
-    product = octopus.tarrif_to_product('E-1R-SILVER-FLEX-22-11-25-B')
+    product = octopus.tariff_to_product('E-1R-SILVER-FLEX-22-11-25-B')
     assert_equal('SILVER-FLEX-22-11-25', product)
   end
 

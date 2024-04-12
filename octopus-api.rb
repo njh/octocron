@@ -69,7 +69,7 @@ class OctopusAPI
     end
   end
 
-  def tarrif_to_product(code)
+  def tariff_to_product(code)
     parts = code.split('-')
     parts.slice(2, parts.length - 3).join('-')
   end
