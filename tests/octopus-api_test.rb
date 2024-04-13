@@ -2,7 +2,7 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'minitest/autorun'
 
-require './octopus-api.rb'
+require './octopus-api'
 
 class OctopusAPITest < Minitest::Test
   def test_initialize
