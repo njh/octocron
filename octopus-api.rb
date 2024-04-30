@@ -141,7 +141,7 @@ class OctopusAPI
 
       response = http.request(request)
       if response.code != '200'
-        raise "Octopus API request for #{uri} failed: #{response}"
+        raise "Octopus API request for #{uri} failed: #{response.message} #{response.body}"
       end
     end
 
