@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require './octopus-api'
+require 'time'
 require 'yaml'
 require 'erb'
 
