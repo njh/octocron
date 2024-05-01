@@ -125,6 +125,11 @@ class OctopusAPI
     get_rates_for_day(type, product_code, date).first[:rate]
   end
 
+  def get_average_rate_for_day(type, product_code, date = Date.today)
+    rates = get_rates_for_day(type, product_code, date)
+    rates.map { |r| r[:rate] }.sum / rates.length
+  end
+
   def fetch(path, query = {})
     # The Octopus API requires a trailing slash
     path += '/' unless path[-1] == '/'

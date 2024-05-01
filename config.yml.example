@@ -17,3 +17,5 @@ gas_variable_tariff: 'VAR-22-11-01'
 gas_fixed_tariff: 'LOYAL-FIX-12M-24-03-22'
 
 electricity_agile_tariff: 'AGILE-23-12-06'
+electricity_variable_tariff: 'VAR-22-11-01'
+electricity_fixed_tariff: 'LOYAL-FIX-12M-24-03-22'
