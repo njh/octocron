@@ -113,21 +113,21 @@ class OctopusAPI
       }
     )
 
-    result[:results].map do |row|
-      {
-        time: row[:valid_from],
-        rate: row[:value_inc_vat]
-      }
-    end.sort_by { |r| r[:time] }
+    hash = {}
+    result[:results].sort_by {|row| row[:valid_from] }.each do |row|
+      hash[row[:valid_from]] = row[:value_inc_vat]
+    end
+    return hash
   end
 
   def get_single_rate_for_day(type, product_code, date = Date.today)
-    get_rates_for_day(type, product_code, date).first[:rate]
+    get_rates_for_day(type, product_code, date).values.first
   end
 
   def get_average_rate_for_day(type, product_code, date = Date.today)
     rates = get_rates_for_day(type, product_code, date)
-    rates.map { |r| r[:rate] }.sum / rates.length
+    rates.values.sum / rates.length
+  end
   end
 
   def fetch(path, query = {})
