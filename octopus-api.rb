@@ -1,5 +1,6 @@
 require 'json'
 require 'net/http'
+require 'time'
 require 'uri'
 
 class OctopusAPI
@@ -174,4 +175,15 @@ class OctopusAPI
 
     return data
   end
+
+  # Calculate which half-hour period a point in time belongs in
+  # If no time is given, the current half-hour period is returned
+  def half_hour_period(time = Time.now)
+    min = (time.min < 30) ? 0 : 30
+    Time.new(
+      time.year, time.month, time.day, time.hour, min, 0,
+      time.utc_offset == 0 ? 'UTC' : time.utc_offset
+    )
+  end
+
 end

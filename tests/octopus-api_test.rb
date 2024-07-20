@@ -49,4 +49,32 @@ class OctopusAPITest < Minitest::Test
     assert_equal('products/LOYAL-FIX-12M-24-03-22/electricity-tariffs/E-1R-LOYAL-FIX-12M-24-03-22-B/standing-charges',
                  path)
   end
+
+  def test_half_hour_period_low
+    octopus = OctopusAPI.new
+    time = Time.utc(2024, 7, 19, 14, 5, 20)
+    period = octopus.half_hour_period(time)
+    assert_equal('2024-07-19T14:00:00Z', period.iso8601)
+  end
+
+  def test_half_hour_period_high
+    octopus = OctopusAPI.new
+    time = Time.utc(2024, 7, 19, 7, 57, 50)
+    period = octopus.half_hour_period(time)
+    assert_equal('2024-07-19T07:30:00Z', period.iso8601)
+  end
+
+  def test_half_hour_period_low_local
+    octopus = OctopusAPI.new
+    time = Time.new(2024, 7, 19, 14, 5, 20, '+01:00')
+    period = octopus.half_hour_period(time)
+    assert_equal('2024-07-19T14:00:00+01:00', period.iso8601)
+  end
+
+  def test_half_hour_period_high_local
+    octopus = OctopusAPI.new
+    time = Time.new(2024, 7, 19, 7, 57, 50, '+01:00')
+    period = octopus.half_hour_period(time)
+    assert_equal('2024-07-19T07:30:00+01:00', period.iso8601)
+  end
 end
