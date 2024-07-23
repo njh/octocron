@@ -102,7 +102,7 @@ class OctopusAPI
     ].join('/')
   end
 
-  def get_rates_for_day(type, product_code, date = Date.today)
+  def get_rates_for_day(type, product_code, date)
     rate_type = 'standard-unit-rates'
     cache_key = [rate_type, tariff_code(type, product_code), date]
     result = fetch_cached(
@@ -119,6 +119,10 @@ class OctopusAPI
       hash[row[:valid_from]] = row[:value_inc_vat]
     end
     return hash
+  end
+
+  def get_rates_for_today(type, product_code)
+    get_rates_for_day(type, product_code, Date.today)
   end
 
   def get_single_rate_for_day(type, product_code, date = Date.today)
