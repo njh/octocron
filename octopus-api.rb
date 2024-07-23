@@ -125,6 +125,20 @@ class OctopusAPI
     get_rates_for_day(type, product_code, Date.today)
   end
 
+  def get_rates_for_days(type, product_code, start_date, end_date)
+    rates = {}
+    (start_date...end_date).each do |date|
+      rates.merge!(get_rates_for_day(type, product_code, date))
+    end
+    return rates
+  end
+
+  def get_rates_for_past_days(type, product_code, number_days)
+    end_date = Date.today
+    start_date = end_date - number_days
+    get_rates_for_days(type, product_code, start_date, end_date)
+  end
+
   def get_single_rate_for_day(type, product_code, date = Date.today)
     get_rates_for_day(type, product_code, date).values.first
   end
