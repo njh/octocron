@@ -197,10 +197,12 @@ class OctopusAPI
   # If no time is given, the current half-hour period is returned
   def half_hour_period(time = Time.now)
     min = (time.min < 30) ? 0 : 30
-    Time.new(
-      time.year, time.month, time.day, time.hour, min, 0,
-      time.utc_offset == 0 ? 'UTC' : time.utc_offset
-    )
+    args = [time.year, time.month, time.day, time.hour, min, 0]
+    if time.utc_offset == 0
+      Time.utc(*args)
+    else
+      Time.new(*args, time.utc_offset)
+    end
   end
 
   # Calculate the quantile cut points for a dataset
