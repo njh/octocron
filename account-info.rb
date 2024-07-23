@@ -1,14 +1,14 @@
 #!/usr/bin/env ruby
 
-require './octopus-api'
 require 'time'
 require 'yaml'
 require 'erb'
 
+require './lib/octopus-api'
+
 config = YAML.load_file('config.yml')
 
 octopus = OctopusAPI.new(config)
-
 account = octopus.account_info
 
 def format_kwh(number)

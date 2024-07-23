@@ -3,10 +3,9 @@
 require 'yaml'
 require 'date'
 
-require './octopus-api'
+require './lib/octopus-api'
 
 config = YAML.load_file('config.yml')
-
 octopus = OctopusAPI.new(config)
 
 date = Date.today

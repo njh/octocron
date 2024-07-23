@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require './octopus-api'
+require './lib/octopus-api'
 
 octopus = OctopusAPI.new
 products = octopus.product_list
