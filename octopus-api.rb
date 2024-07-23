@@ -115,7 +115,7 @@ class OctopusAPI
     )
 
     hash = {}
-    result[:results].sort_by {|row| row[:valid_from] }.each do |row|
+    result[:results].sort_by { |row| row[:valid_from] }.each do |row|
       hash[row[:valid_from]] = row[:value_inc_vat]
     end
     return hash

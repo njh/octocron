@@ -25,12 +25,12 @@ puts "Fixed (#{config['gas_fixed_tariff']}): #{fixed_rate.round(1)} p/kWh"
 puts
 
 if tracker_rate > variable_rate
-  $stderr.puts "Warning: Variable rate for Gas is cheaper than Tracker"
+  $stderr.puts 'Warning: Variable rate for Gas is cheaper than Tracker'
   exit(1)
 elsif tracker_rate > fixed_rate
-  $stderr.puts "Warning: Fixed rate for Gas is cheaper than Tracker"
+  $stderr.puts 'Warning: Fixed rate for Gas is cheaper than Tracker'
   exit(1)
 else
-  puts "Tracker is the cheapest option."
+  puts 'Tracker is the cheapest option.'
   exit(0)
 end

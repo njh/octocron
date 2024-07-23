@@ -1,7 +1,7 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 gem 'bundler'
 
-gem 'rake'
-gem 'minitest'
 gem 'json'
+gem 'minitest'
+gem 'rake'
