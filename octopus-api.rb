@@ -147,7 +147,6 @@ class OctopusAPI
     rates = get_rates_for_day(type, product_code, date)
     rates.values.sum / rates.length
   end
-  end
 
   def fetch(path, query = {})
     # The Octopus API requires a trailing slash
