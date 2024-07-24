@@ -1,6 +1,34 @@
 require 'io/console'
 require 'time'
 
+# Function to display an array of strings
+# as columns on a text terminal.
+def format_as_columns(strings, column_count, column_width = nil)
+  per_column = (strings.count.to_f / column_count).ceil
+
+  if column_width.nil?
+    height, width = IO.console.winsize
+    column_width = (width.to_f / column_count).floor
+  end
+
+  result = []
+  (0...per_column).each do |r|
+    row = ''
+    (0...column_count).each do |c|
+      index = (c * per_column) + r
+      if strings[index].nil?
+        item = ''
+      else
+        item = strings[index]
+      end
+      row += item.ljust(column_width)
+    end
+    result << row
+  end
+
+  return result
+end
+
 # Calculate which half-hour period a point in time belongs in
 # If no time is given, the current half-hour period is returned
 def half_hour_period(time = Time.now)

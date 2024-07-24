@@ -58,4 +58,44 @@ class UtilsTest < Minitest::Test
     points = calculate_quartile_points(dataset)
     assert_equal([20.25, 48.0, 73.25], points)
   end
+
+  def test_format_as_columns_2items_1col
+    items = ['one', 'two']
+    result = format_as_columns(items, 1, 8)
+    assert_equal(
+      ["one     ",
+       "two     "],
+      result
+    )
+  end
+
+  def test_format_as_columns_2items_2cols
+    items = ['one', 'two']
+    result = format_as_columns(items, 2, 8)
+    assert_equal(
+      ["one     two     "],
+      result
+    )
+  end
+
+  def test_format_as_columns_4items_2cols
+    items = ['one', 'two', 'three', 'four']
+    result = format_as_columns(items, 2, 8)
+    assert_equal(
+      ["one     three   ",
+       "two     four    "],
+      result
+    )
+  end
+
+  def test_format_as_columns_7items_3cols
+    items = ['one', 'two', 'three', 'four', 'five', 'six', 'seven']
+    result = format_as_columns(items, 3, 8)
+    assert_equal(
+      ["one     four    seven   ",
+       "two     five            ",
+       "three   six             "],
+      result
+    )
+  end
 end
